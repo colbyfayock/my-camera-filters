@@ -1,10 +1,25 @@
 import Head from 'next/head';
+import Webcam from 'react-webcam';
 
 import Layout from '@components/Layout';
 import Container from '@components/Container';
 import Button from '@components/Button';
 
 import styles from '@styles/Home.module.scss';
+
+const cameraWidth = 720;
+const cameraHeight = 720;
+const aspectRatio = cameraWidth / cameraHeight;
+
+const videoConstraints = {
+  width: {
+    min: cameraWidth
+  },
+  height: {
+    min: cameraHeight
+  },
+  aspectRatio
+};
 
 export default function Home() {
   return (
@@ -20,7 +35,7 @@ export default function Home() {
 
           <div className={styles.stageContainer}>
             <div className={styles.stage}>
-              <img src="/images/mountain-1200x1200.jpg" />
+              <Webcam videoConstraints={videoConstraints} width={cameraWidth} height={cameraHeight} />
             </div>
           </div>
 
