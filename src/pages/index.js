@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import Head from 'next/head';
 import Webcam from 'react-webcam';
 
@@ -22,6 +23,15 @@ const videoConstraints = {
 };
 
 export default function Home() {
+  const webcamRef = useRef();
+
+  const [image, setImage] = useState();
+
+  function handleCaptureScreenshot() {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImage(imageSrc);
+  }
+
   return (
     <Layout>
       <Head>
@@ -35,19 +45,24 @@ export default function Home() {
 
           <div className={styles.stageContainer}>
             <div className={styles.stage}>
-              <Webcam videoConstraints={videoConstraints} width={cameraWidth} height={cameraHeight} />
+              { image && (
+                <img src={image} />
+              )}
+              {!image && (
+                <Webcam ref={webcamRef} videoConstraints={videoConstraints} width={cameraWidth} height={cameraHeight} />
+              )}
             </div>
           </div>
 
           <div className={styles.controls}>
             <ul>
               <li>
-                <Button>
+                <Button onClick={handleCaptureScreenshot}>
                   Capture photo
                 </Button>
               </li>
               <li>
-                <Button color="red">
+                <Button onClick={() => setImage(undefined)} color="red">
                   Reset
                 </Button>
               </li>
