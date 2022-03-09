@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Webcam from 'react-webcam';
 
@@ -26,6 +26,21 @@ export default function Home() {
   const webcamRef = useRef();
 
   const [image, setImage] = useState();
+  const [cldData, setCldData] = useState();
+
+  useEffect(() => {
+    if ( !image ) return;
+
+    (async function run() {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: JSON.stringify({
+          image
+        })
+      }).then(r => r.json());
+      setCldData(response);
+    })();
+  }, [image]);
 
   function handleCaptureScreenshot() {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -46,7 +61,7 @@ export default function Home() {
           <div className={styles.stageContainer}>
             <div className={styles.stage}>
               { image && (
-                <img src={image} />
+                <img src={cldData?.secure_url || image} />
               )}
               {!image && (
                 <Webcam ref={webcamRef} videoConstraints={videoConstraints} width={cameraWidth} height={cameraHeight} />
