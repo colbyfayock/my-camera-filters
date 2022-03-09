@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Head from 'next/head';
 import Webcam from 'react-webcam';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 import Layout from '@components/Layout';
 import Container from '@components/Container';
@@ -22,11 +23,27 @@ const videoConstraints = {
   aspectRatio
 };
 
+const cloudinary = new Cloudinary({
+  cloud: {
+    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+  },
+  url: {
+    secure: true
+  }
+});
+
 export default function Home() {
   const webcamRef = useRef();
 
   const [image, setImage] = useState();
   const [cldData, setCldData] = useState();
+
+  let src = image;
+  const cldImage = cldData && cloudinary.image(cldData.public_id);
+
+  if ( cldImage ) {
+    src = cldImage.toURL();
+  }
 
   useEffect(() => {
     if ( !image ) return;
@@ -60,10 +77,10 @@ export default function Home() {
 
           <div className={styles.stageContainer}>
             <div className={styles.stage}>
-              { image && (
-                <img src={cldData?.secure_url || image} />
+              { src && (
+                <img src={src} />
               )}
-              {!image && (
+              {!src && (
                 <Webcam ref={webcamRef} videoConstraints={videoConstraints} width={cameraWidth} height={cameraHeight} />
               )}
             </div>

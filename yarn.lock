@@ -17,6 +17,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@cloudinary/url-gen@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@cloudinary/url-gen/-/url-gen-1.6.0.tgz#0810b4e00193737e336d43f29073b1fce0910a6f"
+  integrity sha512-Ir7IloApze7tUmLxDUjFw3GOcs7/Hrh47p4U3CCtC6wI59ZGMHQe3l3aNhMtdYrJxCVIs2jYp6obWetcfTf3GQ==
+
 "@eslint/eslintrc@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.2.0.tgz#7ce1547a5c46dfe56e1e45c3c9ed18038c721c6a"
