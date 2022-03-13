@@ -32,16 +32,44 @@ const cloudinary = new Cloudinary({
   }
 });
 
+const ART_FILTERS = [
+  'al_dente',
+  'athena',
+  'audrey',
+  'aurora',
+  'daguerre',
+  'eucalyptus',
+  'fes',
+  'frost',
+  'hairspray',
+  'hokusai',
+  'incognito',
+  'linen',
+  'peacock',
+  'primavera',
+  'quartz',
+  'red_rock',
+  'refresh',
+  'sizzle',
+  'sonnet',
+  'ukulele',
+  'zorro'
+];
+
 export default function Home() {
   const webcamRef = useRef();
 
   const [image, setImage] = useState();
   const [cldData, setCldData] = useState();
+  const [filter, setFilter] = useState();
 
   let src = image;
   const cldImage = cldData && cloudinary.image(cldData.public_id);
 
   if ( cldImage ) {
+    if ( filter ) {
+      cldImage.effect(`e_art:${filter}`);
+    }
     src = cldImage.toURL();
   }
 
@@ -105,12 +133,21 @@ export default function Home() {
         <div className={styles.effects}>
           <h2>Filters</h2>
           <ul className={styles.filters}>
-            <li data-is-active-filter={false}>
-              <button className={styles.filterThumb}>
-                <img width="100" height="100" src="/images/mountain-100x100.jpg" alt="Filter Name" />
-                <span>Filter Name</span>
-              </button>
-            </li>
+            {ART_FILTERS.map(filter => {
+              return (
+                <li key={filter} data-is-active-filter={false}>
+                  <button className={styles.filterThumb} onClick={() => setFilter(filter)}>
+                    <img width="100" height="100" src={
+                      cloudinary.image(cldData.public_id)
+                        .resize('w_200,h_200')
+                        .effect(`e_art:${filter}`)
+                        .toURL()
+                    } alt={filter} />
+                    <span>{ filter }</span>
+                  </button>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </Container>
