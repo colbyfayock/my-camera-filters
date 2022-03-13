@@ -130,7 +130,7 @@ export default function Home() {
                 </Button>
               </li>
               <li>
-                <Button onClick={() => setImage(undefined)} color="red">
+                <Button onClick={() => setImage(undefined) && setCldData(undefined)} color="red">
                   Reset
                 </Button>
               </li>
@@ -138,44 +138,46 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.effects}>
-          <h2>Overlays</h2>
-          <ul className={styles.filters}>
-            {OVERLAYS.map(overlay => {
-              return (
-                <li key={overlay} data-is-active-filter={false}>
-                  <button className={styles.filterThumb} onClick={() => setOverlay(overlay)}>
-                    <img width="100" height="100" src={
-                      cloudinary.image(cldData?.public_id)
-                        .resize('w_200,h_200')
-                        .addTransformation(`l_${overlay}/fl_layer_apply,fl_relative,g_faces,h_1.2,y_-0.05`)
-                        .toURL()
-                    } alt={overlay} />
-                    <span>{ overlay }</span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-          <h2>Filters</h2>
-          <ul className={styles.filters}>
-            {ART_FILTERS.map(filter => {
-              return (
-                <li key={filter} data-is-active-filter={false}>
-                  <button className={styles.filterThumb} onClick={() => setFilter(filter)}>
-                    <img width="100" height="100" src={
-                      cloudinary.image(cldData?.public_id)
-                        .resize('w_200,h_200')
-                        .effect(`e_art:${filter}`)
-                        .toURL()
-                    } alt={filter} />
-                    <span>{ filter }</span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+        {cldData && (
+          <div className={styles.effects}>
+            <h2>Overlays</h2>
+            <ul className={styles.filters}>
+              {OVERLAYS.map(overlay => {
+                return (
+                  <li key={overlay} data-is-active-filter={false}>
+                    <button className={styles.filterThumb} onClick={() => setOverlay(overlay)}>
+                      <img width="100" height="100" src={
+                        cloudinary.image(cldData?.public_id)
+                          .resize('w_200,h_200')
+                          .addTransformation(`l_${overlay}/fl_layer_apply,fl_relative,g_faces,h_1.2,y_-0.05`)
+                          .toURL()
+                      } alt={overlay} />
+                      <span>{ overlay }</span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+            <h2>Filters</h2>
+            <ul className={styles.filters}>
+              {ART_FILTERS.map(filter => {
+                return (
+                  <li key={filter} data-is-active-filter={false}>
+                    <button className={styles.filterThumb} onClick={() => setFilter(filter)}>
+                      <img width="100" height="100" src={
+                        cloudinary.image(cldData?.public_id)
+                          .resize('w_200,h_200')
+                          .effect(`e_art:${filter}`)
+                          .toURL()
+                      } alt={filter} />
+                      <span>{ filter }</span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
       </Container>
     </Layout>
   )
