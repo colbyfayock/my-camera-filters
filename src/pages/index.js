@@ -33,7 +33,7 @@ const cloudinary = new Cloudinary({
 });
 
 const OVERLAYS = [
-  'my-camera-filters-assets:vader_helmet'
+  'tutorials:my-camera-filters-assets:vader_helmet'
 ];
 
 const ART_FILTERS = [

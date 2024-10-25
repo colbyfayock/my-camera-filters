@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   const results = await cloudinary.uploader.upload(image, {
     folder: 'tutorials/my-camera-filters',
-    upload_preset: 'require-moderation'
+    upload_preset: 'tutorials-require-moderation'
   });
 
   res.status(200).json({
