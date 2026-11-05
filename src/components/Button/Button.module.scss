@@ -1,4 +1,5 @@
-@import "@styles/settings/__settings";
+@use "sass:color";
+@use "@styles/settings/__settings" as *;
 
 .button {
 
@@ -14,7 +15,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: lighten($color-button-background, 10);
+    background-color: color.adjust($color-button-background, $lightness: 10%);
   }
 
   &[data-color="red"] {
@@ -22,7 +23,7 @@
     background-color: $color-red;
 
     &:hover {
-      background-color: lighten($color-red, 10);
+      background-color: color.adjust($color-red, $lightness: 10%);
     }
 
   }
